@@ -17,9 +17,9 @@ namespace DataStructure.Models
 
         public virtual FootballLeague FootballLeague { get; set; }
 
-        public virtual IQueryable<FootballPlayer> FootballPlayers { get; set; }
+        public virtual List<FootballPlayer> FootballPlayers { get; set; } = new List<FootballPlayer>();
 
         [NotMapped]
-        public virtual IQueryable<FootballMatch> FootballMatches { get; set; }
+        public virtual List<FootballMatch> FootballMatches { get; set; } = new List<FootballMatch>();
     }
 }

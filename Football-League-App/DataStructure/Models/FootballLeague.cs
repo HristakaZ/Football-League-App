@@ -10,6 +10,6 @@ namespace DataStructure.Models
     {
         public string Name { get; set; }
 
-        public virtual IQueryable<FootballTeam> FootballTeams { get; set; }
+        public virtual List<FootballTeam> FootballTeams { get; set; } = new List<FootballTeam>();
     }
 }

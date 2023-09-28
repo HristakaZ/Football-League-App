@@ -1,4 +1,6 @@
 using DataAccess;
+using DataAccess.Contracts;
+using DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Football_League_App
@@ -16,6 +18,7 @@ namespace Football_League_App
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+            builder.Services.AddScoped<IBaseRepository, BaseRepository>();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 

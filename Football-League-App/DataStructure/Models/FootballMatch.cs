@@ -14,9 +14,9 @@ namespace DataStructure.Models
 
         public DateTime ScheduledDateAndTime { get; set; }
 
-        public virtual IQueryable<Goal>? Goals { get; set; }
+        public virtual List<Goal>? Goals { get; set; } = new List<Goal>();
 
-        public virtual IQueryable<Assist>? Assists { get; set; }
+        public virtual List<Assist>? Assists { get; set; } = new List<Assist>();
 
         public string Result { get; }
 
