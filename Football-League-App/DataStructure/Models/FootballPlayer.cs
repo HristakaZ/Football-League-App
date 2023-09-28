@@ -8,6 +8,8 @@ namespace DataStructure.Models
 {
     public class FootballPlayer : BaseEntity
     {
-        public FootballTeam FootballTeam { get; set; }
+        public string Name { get; set; }
+
+        public virtual FootballTeam FootballTeam { get; set; }
     }
 }

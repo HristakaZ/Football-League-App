@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace DataStructure.Models
 {
-    public class FootballMatch
+    public class FootballMatch : BaseEntity
     {
-        public FootballTeam Host { get; set; }
+        public virtual FootballTeam Host { get; set; }
 
-        public FootballTeam Visitor { get; set; }
+        public virtual FootballTeam Visitor { get; set; }
 
         public DateTime ScheduledDateAndTime { get; set; }
 
-        public IQueryable<Goal>? Goals { get; set; }
+        public virtual IQueryable<Goal>? Goals { get; set; }
 
-        public IQueryable<Assist>? Assists { get; set; }
+        public virtual IQueryable<Assist>? Assists { get; set; }
 
         public string Result { get; }
 

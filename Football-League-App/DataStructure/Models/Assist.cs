@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DataStructure.Models
 {
-    public class Assist
+    public class Assist : BaseEntity
     {
-        public FootballPlayer Assister { get; set; }
+        public virtual FootballPlayer Assister { get; set; }
     }
 }

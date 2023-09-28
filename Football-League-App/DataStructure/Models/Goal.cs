@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DataStructure.Models
 {
-    public class Goal
+    public class Goal : BaseEntity
     {
-        public FootballPlayer Goalscorer { get; set; }
+        public virtual FootballPlayer Goalscorer { get; set; }
     }
 }

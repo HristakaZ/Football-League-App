@@ -8,6 +8,8 @@ namespace DataStructure.Models
 {
     public class FootballLeague : BaseEntity
     {
-        public IQueryable<FootballTeam> FootballTeams { get; set; }
+        public string Name { get; set; }
+
+        public virtual IQueryable<FootballTeam> FootballTeams { get; set; }
     }
 }
