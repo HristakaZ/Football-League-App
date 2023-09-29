@@ -1,8 +1,8 @@
 ﻿using DataAccess.Contracts;
 using DataStructure.Models;
+using Football_League_App.DTOs.FootballLeague;
+using Football_League_App.DTOs.FootballTeam;
 using Football_League_App.Mappers;
-using Football_League_App.ViewModels.FootballLeague;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Football_League_App.Controllers
@@ -23,7 +23,15 @@ namespace Football_League_App.Controllers
         {
             IQueryable<FootballLeague> footballLeagues = _baseRepository.GetAll<FootballLeague>();
 
-            return footballLeagues.Count() != 0 ? Ok(footballLeagues) : NotFound("No football leagues were found.");
+            if (footballLeagues.Count() != 0)
+            {
+                List<GetFootballLeagueDTO> getFootballLeagueDTOs =
+                    FootballLeagueMapper.MapFootballTeamToGetFootballTeamDTO(footballLeagues);
+
+                return Ok(getFootballLeagueDTOs);
+            }
+
+            return NotFound("No football leagues were found.");
         }
 
         [HttpGet]
@@ -32,7 +40,15 @@ namespace Football_League_App.Controllers
         {
             FootballLeague footballLeague = _baseRepository.GetByID<FootballLeague>(id);
 
-            return footballLeague != null ? Ok(footballLeague) : NotFound("The football league with the given id was not found.");
+            if (footballLeague != null)
+            {
+                GetFootballLeagueDTO getFootballLeagueDTO =
+                    FootballLeagueMapper.MapFootballTeamToGetFootballTeamDTO(footballLeague);
+
+                return Ok(getFootballLeagueDTO);
+            }
+
+            return NotFound("The football league with the given id was not found.");
         }
 
         [HttpPost]
@@ -56,7 +72,10 @@ namespace Football_League_App.Controllers
             footballLeague.Name = updateFootballLeagueDTO.Name;
             _baseRepository.Update<FootballLeague>(footballLeague);
 
-            return Ok(footballLeague);
+            GetFootballLeagueDTO getFootballLeagueDTO =
+                    FootballLeagueMapper.MapFootballTeamToGetFootballTeamDTO(footballLeague);
+
+            return Ok(getFootballLeagueDTO);
         }
 
         [HttpDelete]

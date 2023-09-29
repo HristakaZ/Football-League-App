@@ -1,4 +1,4 @@
-﻿namespace Football_League_App.ViewModels.FootballLeague
+﻿namespace Football_League_App.DTOs.FootballLeague
 {
     public class UpdateFootballLeagueDTO
     {
