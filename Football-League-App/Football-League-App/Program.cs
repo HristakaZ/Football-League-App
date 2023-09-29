@@ -1,6 +1,7 @@
 using DataAccess;
 using DataAccess.Contracts;
 using DataAccess.Repositories;
+using Football_League_App.Middlewares;
 using Football_League_App.Services;
 using Football_League_App.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,7 @@ namespace Football_League_App
 
             app.UseAuthorization();
 
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.MapControllers();
 
