@@ -4,6 +4,7 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230929153712_CombinedHostAndVisitorAsABridgeTable")]
+    partial class CombinedHostAndVisitorAsABridgeTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,6 +27,29 @@ namespace DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("DataStructure.Models.Assist", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("AssisterID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FootballMatchID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AssisterID");
+
+                    b.HasIndex("FootballMatchID");
+
+                    b.ToTable("Assists");
+                });
 
             modelBuilder.Entity("DataStructure.Models.FootballLeague", b =>
                 {
@@ -49,10 +75,6 @@ namespace DataAccess.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<string>("EndResult")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ScheduledDateAndTime")
                         .HasColumnType("datetime2");
@@ -113,6 +135,29 @@ namespace DataAccess.Migrations
                     b.ToTable("FootballTeams");
                 });
 
+            modelBuilder.Entity("DataStructure.Models.Goal", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("FootballMatchID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GoalscorerID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("FootballMatchID");
+
+                    b.HasIndex("GoalscorerID");
+
+                    b.ToTable("Goals");
+                });
+
             modelBuilder.Entity("FootballMatchFootballTeam", b =>
                 {
                     b.Property<int>("FootballMatchesID")
@@ -126,6 +171,25 @@ namespace DataAccess.Migrations
                     b.HasIndex("FootballTeamsID");
 
                     b.ToTable("FootballMatchFootballTeam");
+                });
+
+            modelBuilder.Entity("DataStructure.Models.Assist", b =>
+                {
+                    b.HasOne("DataStructure.Models.FootballPlayer", "Assister")
+                        .WithMany()
+                        .HasForeignKey("AssisterID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataStructure.Models.FootballMatch", "FootballMatch")
+                        .WithMany("Assists")
+                        .HasForeignKey("FootballMatchID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Assister");
+
+                    b.Navigation("FootballMatch");
                 });
 
             modelBuilder.Entity("DataStructure.Models.FootballPlayer", b =>
@@ -150,6 +214,25 @@ namespace DataAccess.Migrations
                     b.Navigation("FootballLeague");
                 });
 
+            modelBuilder.Entity("DataStructure.Models.Goal", b =>
+                {
+                    b.HasOne("DataStructure.Models.FootballMatch", "FootballMatch")
+                        .WithMany("Goals")
+                        .HasForeignKey("FootballMatchID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataStructure.Models.FootballPlayer", "Goalscorer")
+                        .WithMany()
+                        .HasForeignKey("GoalscorerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FootballMatch");
+
+                    b.Navigation("Goalscorer");
+                });
+
             modelBuilder.Entity("FootballMatchFootballTeam", b =>
                 {
                     b.HasOne("DataStructure.Models.FootballMatch", null)
@@ -168,6 +251,13 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("DataStructure.Models.FootballLeague", b =>
                 {
                     b.Navigation("FootballTeams");
+                });
+
+            modelBuilder.Entity("DataStructure.Models.FootballMatch", b =>
+                {
+                    b.Navigation("Assists");
+
+                    b.Navigation("Goals");
                 });
 
             modelBuilder.Entity("DataStructure.Models.FootballTeam", b =>

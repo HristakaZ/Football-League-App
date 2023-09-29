@@ -21,7 +21,7 @@ namespace Football_League_App.Mappers
                 getFootballLeagueDTOs.Add(new GetFootballLeagueDTO()
                 {
                     Name = footballLeague.Name,
-                    FootballTeams = FootballTeamMapper.MapFootballTeamToGetFootballTeamDTO(footballLeague.FootballTeams.AsQueryable())
+                    FootballTeams = FootballTeamMapper.MapFootballTeamToGetFootballTeamDTO(footballLeague.FootballTeams.AsQueryable()).OrderBy(x => x.Points).ToList()
                 });
             }
 
@@ -33,7 +33,7 @@ namespace Football_League_App.Mappers
             return new GetFootballLeagueDTO()
             {
                 Name = footballLeague.Name,
-                FootballTeams = FootballTeamMapper.MapFootballTeamToGetFootballTeamDTO(footballLeague.FootballTeams.AsQueryable())
+                FootballTeams = FootballTeamMapper.MapFootballTeamToGetFootballTeamDTO(footballLeague.FootballTeams.AsQueryable()).OrderBy(x => x.Points).ToList()
             };
         }
     }

@@ -19,7 +19,6 @@ namespace DataStructure.Models
 
         public virtual List<FootballPlayer> FootballPlayers { get; set; } = new List<FootballPlayer>();
 
-        [NotMapped]
         public virtual List<FootballMatch> FootballMatches { get; set; } = new List<FootballMatch>();
     }
 }

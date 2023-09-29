@@ -44,7 +44,10 @@ namespace Football_League_App.Mappers
         {
             List<GetFootballTeamDTO> getFootballTeamDTOs = new List<GetFootballTeamDTO>();
 
-            foreach (FootballTeam footballTeam in footballTeams)
+            IQueryable<FootballTeam> orderedTeamsByPointsAndMatchesPlayed =
+                footballTeams.OrderByDescending(x => x.Points).ThenBy(x => x.FootballMatches.Count);
+
+            foreach (FootballTeam footballTeam in orderedTeamsByPointsAndMatchesPlayed)
             {
                 getFootballTeamDTOs.Add(new GetFootballTeamDTO()
                 {
